@@ -1,27 +1,26 @@
 <script>
+import { store } from "../../data/store";
+
 export default {
   data() {
     return {
-      title: "Add and Remove",
+      store,
       quantity: 1,
-      limit: 1,
     };
   },
 
+  props: { dish: Object },
+
   methods: {
     decrementsValue() {
-      if (this.quantity > 1) {
-        this.quantity--;
+      if (this.dish.quantity > 0) {
+        this.dish.quantity--;
       }
     },
 
     incrementsValue() {
-      this.quantity++;
+      this.dish.quantity++;
     },
-  },
-
-  computed() {
-    this.setRangeQuantity;
   },
 };
 </script>
@@ -32,7 +31,7 @@ export default {
       <span class="sign">-</span>
     </div>
     <span class="col-3 quantity-value">
-      {{ quantity }}
+      {{ dish.quantity }}
     </span>
     <div @click="incrementsValue()" class="col-2 componet">
       <span class="sign">+</span>

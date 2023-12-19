@@ -6,7 +6,7 @@ import { store } from "../../data/store";
 export default {
   data() {
     return {
-      title: "Homepage",
+      title: "I piatti dei ristoranti che ami e la spesa, a domicilio ",
       store,
       types: [],
       filteredRestaurants: [],
@@ -80,40 +80,48 @@ export default {
 </script>
 
 <template>
-  <div class="container">
-    <h1>{{ title }}</h1>
-    <div class="row">
-      <h3>Scegli la tipologia di ristorante</h3>
-      <div class="col-1" v-for="(type, index) in types" :key="index">
-        <span
-          class="badge"
-          :class="type.active ? 'text-bg-' + 'success' : 'text-bg-danger'"
-          @click="toggleType(type)"
-        >
-          {{ type.name }}
-        </span>
-      </div>
+  <div class="wrapper-home">
+    <div class="container-image left">
+      <img src="../../../public/img/grocery-bag-jumbotron.png" alt="" />
     </div>
-    <div class="row">
-      <div
-        class="col-4"
-        v-for="restaurant in filteredRestaurants"
-        :key="restaurant.id"
-        :restaurantId="restaurant.id"
-      >
-        <div class="card">
-          <img src="..." class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">{{ restaurant.name }}</h5>
-            <p class="card-text">{{ restaurant.description }}</p>
-            <router-link
-              :to="{
-                name: 'dishes-by-restaurant',
-                params: { restaurantId: restaurant.id },
-              }"
-              class="btn btn-primary"
-              >Menu
-            </router-link>
+    <div class="container-image right">
+      <img src="../../../public/img/mastro-ciccio-burger.png" alt="" />
+    </div>
+    <div class="container">
+      <h1>{{ title }}</h1>
+      <div class="row">
+        <h3>Scegli la tipologia di ristorante</h3>
+        <div class="col-1" v-for="(type, index) in types" :key="index">
+          <span
+            class="badge"
+            :class="type.active ? 'text-bg-' + 'success' : 'text-bg-danger'"
+            @click="toggleType(type)"
+          >
+            {{ type.name }}
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div
+          class="col-4"
+          v-for="restaurant in filteredRestaurants"
+          :key="restaurant.id"
+          :restaurantId="restaurant.id"
+        >
+          <div class="card">
+            <img src="..." class="card-img-top" alt="..." />
+            <div class="card-body">
+              <h5 class="card-title">{{ restaurant.name }}</h5>
+              <p class="card-text">{{ restaurant.description }}</p>
+              <router-link
+                :to="{
+                  name: 'dishes-by-restaurant',
+                  params: { restaurantId: restaurant.id },
+                }"
+                class="btn btn-primary"
+                >Menu
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -121,4 +129,38 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.wrapper-home {
+  background-color: rgb(25, 25, 25);
+  color: whitesmoke;
+  width: 100%;
+  height: 100vh;
+  position: relative;
+
+  .container-image {
+    width: 40%;
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    z-index: 0;
+
+    &.right {
+      height: 45%;
+      right: 0;
+      top: 25%;
+    }
+
+    &.left {
+      left: 0;
+      top: 25%;
+    }
+    img {
+      max-height: 100%;
+      max-width: 100%;
+      background-size: cover;
+    }
+  }
+}
+</style>

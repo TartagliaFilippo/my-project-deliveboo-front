@@ -3,10 +3,6 @@ export default {
   data() {
     return {};
   },
-
-  // components: {
-  //   MyComponent,
-  // },
 };
 </script>
 
@@ -32,17 +28,17 @@ export default {
               class="nav-link"
               aria-current="page"
               :to="{ name: 'homepage' }"
-              >Home</router-link
-            >
+              >Home
+            </router-link>
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <router-link
               class="nav-link"
               aria-current="page"
-              :to="{ name: 'add-and-remove' }"
-              >Portfolio</router-link
-            >
-          </li> -->
+              :to="{ name: 'cart' }"
+              >Cart
+            </router-link>
+          </li>
         </ul>
       </div>
     </div>
