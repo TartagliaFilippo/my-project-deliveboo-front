@@ -9,13 +9,14 @@ export default {
       store,
       restaurantInfo: {},
       dishes: [],
-      selectedDishes: [],
     };
   },
 
   components: {
     AddAndRemove,
   },
+
+  emits: ["quantityChanged"],
 
   methods: {
     fetchRestaurant() {
@@ -43,14 +44,33 @@ export default {
       clickedDish.selected = !clickedDish.selected;
       if (clickedDish.selected) {
         clickedDish.quantity = 1;
-        this.selectedDishes.push(clickedDish); // Aggiungo il piatto selezionato all'array
+        this.store.selectedDishes.push(clickedDish); // Aggiungo il piatto selezionato all'array
       } else {
-        const index = this.selectedDishes.findIndex(
+        const index = this.store.selectedDishes.findIndex(
           (dish) => dish.id === clickedDish.id
         );
         if (index !== -1) {
-          this.selectedDishes.splice(index, 1); // Rimuovo il piatto deselezionato dall'array
+          this.store.selectedDishes.splice(index, 1); // Rimuovo il piatto deselezionato dall'array
         }
+      }
+      //dopo ogni modifica lo salvo nel local storage
+      localStorage.setItem(
+        "selectedDishes",
+        JSON.stringify(this.store.selectedDishes)
+      );
+    },
+
+    handleQuantityChanged(updatedDish) {
+      const existingDish = this.store.selectedDishes.find(
+        (dish) => dish.id === updatedDish.id
+      );
+      if (existingDish) {
+        existingDish.quantity = updatedDish.quantity;
+        // Salva nel local storage dopo l'aggiornamento della quantità
+        localStorage.setItem(
+          "selectedDishes",
+          JSON.stringify(this.store.selectedDishes)
+        );
       }
     },
   },
@@ -66,7 +86,7 @@ export default {
   <div class="container">
     <h1>Menu di {{ restaurantInfo.name }}</h1>
     <div class="row">
-      <div class="col-6" v-for="dish in dishes" :key="dish.id">
+      <div class="col-6" v-for="(dish, index) in dishes" :key="dish.id">
         <div class="card">
           <h5 class="card-header">{{ dish.name }}</h5>
           <div class="card-body">
@@ -80,11 +100,11 @@ export default {
                 @click="toggleAddAndRemove(dish)"
                 v-if="!dish.selected"
               >
-                Add
+                Add to Cart
               </div>
               <div class="container-add-cart" v-if="dish.selected">
-                <AddAndRemove :dish="dish" />
-                <button class="btn btn-success">Add to Cart</button>
+                <AddAndRemove :dish="dish" @quantityChanged="updateQuantity" />
+                <button class="btn btn-success">Remove</button>
               </div>
             </div>
           </div>

@@ -5,7 +5,6 @@ export default {
   data() {
     return {
       store,
-      quantity: 1,
     };
   },
 
@@ -15,11 +14,13 @@ export default {
     decrementsValue() {
       if (this.dish.quantity > 0) {
         this.dish.quantity--;
+        this.$emit("quantityChanged", this.dish);
       }
     },
 
     incrementsValue() {
       this.dish.quantity++;
+      this.$emit("quantityChanged", this.dish);
     },
   },
 };
