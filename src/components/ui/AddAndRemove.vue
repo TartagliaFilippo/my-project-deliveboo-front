@@ -5,22 +5,24 @@ export default {
   data() {
     return {
       store,
+      quantity: 1,
+      maxLimit: 100,
     };
   },
 
   props: { dish: Object },
 
+  emits: ["quantity-changed"],
+
   methods: {
     decrementsValue() {
-      if (this.dish.quantity > 0) {
-        this.dish.quantity--;
-        this.$emit("quantityChanged", this.dish);
-      }
+      this.dish.quantity--;
+      this.$emit("quantity-changed", this.dish.quantity);
     },
 
     incrementsValue() {
       this.dish.quantity++;
-      this.$emit("quantityChanged", this.dish);
+      this.$emit("quantity-changed", this.dish.quantity);
     },
   },
 };

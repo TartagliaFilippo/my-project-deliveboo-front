@@ -12,13 +12,8 @@ export default {
     };
   },
 
-  components: {
-    AddAndRemove,
-  },
-
-  emits: ["quantityChanged"],
-
   methods: {
+    // api per restaurantInfo specifico
     fetchRestaurant() {
       axios
         .get(store.baseUrl + `restaurants/${this.$route.params.restaurantId}`)
@@ -27,6 +22,7 @@ export default {
         });
     },
 
+    //api piatti per ristorante
     fetchDishes() {
       axios
         .get(
@@ -36,41 +32,93 @@ export default {
             "/dishes"
         )
         .then((response) => {
-          this.dishes = response.data;
+          this.dishes = response.data.map((dish) => {
+            return { ...dish, showAddRemoveById: false, quantity: 0 }; // aggiungo la quantità e la visibilità dell'addRemove
+          });
         });
     },
 
-    toggleAddAndRemove(clickedDish) {
-      clickedDish.selected = !clickedDish.selected;
-      if (clickedDish.selected) {
-        clickedDish.quantity = 1;
-        this.store.selectedDishes.push(clickedDish); // Aggiungo il piatto selezionato all'array
-      } else {
-        const index = this.store.selectedDishes.findIndex(
-          (dish) => dish.id === clickedDish.id
+    //mostra il componente o lo rimuove addAndRemove
+    showAddRemove(dish) {
+      dish.showAddRemoveById = !dish.showAddRemoveById;
+
+      if (!dish.showAddRemoveById) {
+        const existingCartItemIndex = this.store.cart.findIndex(
+          (item) => item.id === dish.id
         );
-        if (index !== -1) {
-          this.store.selectedDishes.splice(index, 1); // Rimuovo il piatto deselezionato dall'array
+        if (existingCartItemIndex !== -1) {
+          this.store.cart.splice(existingCartItemIndex, 1); // Rimuove il piatto dal carrello
         }
       }
-      //dopo ogni modifica lo salvo nel local storage
-      localStorage.setItem(
-        "selectedDishes",
-        JSON.stringify(this.store.selectedDishes)
-      );
     },
 
-    handleQuantityChanged(updatedDish) {
-      const existingDish = this.store.selectedDishes.find(
-        (dish) => dish.id === updatedDish.id
+    // decremento quantità piatti
+    decrementsValue(dish) {
+      if (dish.quantity > 0) {
+        dish.quantity--;
+        const existingCartItemIndex = this.store.cart.findIndex(
+          (item) => item.id === dish.id
+        ); //identico il piatto nel carrello
+        if (existingCartItemIndex !== -1) {
+          this.store.cart[existingCartItemIndex].quantity--;
+          if (this.store.cart[existingCartItemIndex].quantity === 0) {
+            this.store.cart.splice(existingCartItemIndex, 1); // Rimuove il piatto dal carrello se la quantità diventa zero
+            dish.showAddRemoveById = false;
+          }
+        } else {
+          const cartItem = {
+            id: dish.id,
+            name: dish.name,
+            image: dish.image,
+            price: dish.price,
+            quantity: 1,
+          };
+          this.store.cart.push(cartItem);
+        }
+      }
+    },
+
+    // incremento quantità piatti
+    incrementsValue(dish) {
+      dish.quantity++;
+      const existingCartItemIndex = this.store.cart.findIndex(
+        (item) => item.id === dish.id
       );
-      if (existingDish) {
-        existingDish.quantity = updatedDish.quantity;
-        // Salva nel local storage dopo l'aggiornamento della quantità
-        localStorage.setItem(
-          "selectedDishes",
-          JSON.stringify(this.store.selectedDishes)
-        );
+      if (existingCartItemIndex !== -1) {
+        this.store.cart[existingCartItemIndex].quantity++;
+      } else {
+        const cartItem = {
+          id: dish.id,
+          name: dish.name,
+          image: dish.image,
+          price: dish.price,
+          quantity: 1,
+        };
+        this.store.cart.push(cartItem);
+      }
+    },
+
+    //aggiunta al carrello per determinato piatto
+    addToCart(dish) {
+      dish.showAddRemoveById = true;
+
+      const existingCartItemIndex = this.store.cart.findIndex(
+        (item) => item.id === dish.id
+      );
+
+      if (existingCartItemIndex !== -1) {
+        // Se l'articolo è già nel carrello, aggiorna solo la quantità
+        this.store.cart[existingCartItemIndex].quantity += dish.quantity;
+      } else {
+        // Se l'articolo non è nel carrello, aggiungilo
+        const cartItem = {
+          id: dish.id,
+          name: dish.name,
+          image: dish.image,
+          price: dish.price,
+          quantity: dish.quantity,
+        };
+        this.store.cart.push(cartItem);
       }
     },
   },
@@ -97,14 +145,29 @@ export default {
             <div class="text-center">
               <div
                 class="btn btn-primary"
-                @click="toggleAddAndRemove(dish)"
-                v-if="!dish.selected"
+                v-if="dish.showAddRemoveById == false"
+                @click="addToCart(dish)"
               >
                 Add to Cart
               </div>
-              <div class="container-add-cart" v-if="dish.selected">
-                <AddAndRemove :dish="dish" @quantityChanged="updateQuantity" />
-                <button class="btn btn-success">Remove</button>
+              <div
+                class="container-add-cart"
+                v-if="dish.showAddRemoveById == true"
+              >
+                <div class="row container-componets">
+                  <div @click="decrementsValue(dish)" class="col-2 componet">
+                    <span class="sign">-</span>
+                  </div>
+                  <span class="col-3 quantity-value">
+                    {{ dish.quantity }}
+                  </span>
+                  <div @click="incrementsValue(dish)" class="col-2 componet">
+                    <span class="sign">+</span>
+                  </div>
+                </div>
+                <button class="btn btn-danger" @click="showAddRemove(dish)">
+                  Remove
+                </button>
               </div>
             </div>
           </div>
@@ -114,4 +177,34 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container-componets {
+  flex-direction: row;
+  justify-content: center;
+  height: 50px;
+
+  .componet {
+    height: 100%;
+    width: 50px;
+    background-color: #d2fffe;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    cursor: pointer;
+
+    .sign {
+      font-size: 30px;
+      font-weight: 600;
+    }
+  }
+
+  .quantity-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: bold;
+  }
+}
+</style>
