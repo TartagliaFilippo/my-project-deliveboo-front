@@ -1,7 +1,6 @@
 <script>
 import axios from "axios";
 import { store } from "../../data/store";
-import AddAndRemove from "../ui/AddAndRemove.vue";
 
 export default {
   data() {
@@ -10,6 +9,10 @@ export default {
       restaurantInfo: {},
       dishes: [],
     };
+  },
+
+  created() {
+    this.viewCart();
   },
 
   methods: {
@@ -22,7 +25,7 @@ export default {
         });
     },
 
-    //api piatti per ristorante
+    // api piatti per ristorante
     fetchDishes() {
       axios
         .get(
@@ -38,6 +41,15 @@ export default {
         });
     },
 
+    // inizializzo il localStorage con il carrello
+    viewCart() {
+      // recupero i dati dal localStorage durante la creazione della pagina
+      const storedCartItems = localStorage.getItem("cartItems");
+      if (storedCartItems) {
+        this.store.cart = JSON.parse(storedCartItems);
+      }
+    },
+
     //mostra il componente o lo rimuove addAndRemove
     showAddRemove(dish) {
       dish.showAddRemoveById = !dish.showAddRemoveById;
@@ -47,7 +59,8 @@ export default {
           (item) => item.id === dish.id
         );
         if (existingCartItemIndex !== -1) {
-          this.store.cart.splice(existingCartItemIndex, 1); // Rimuove il piatto dal carrello
+          this.store.cart.splice(existingCartItemIndex, 1); // rimuovo il piatto dal carrello
+          localStorage.setItem("cartItems", JSON.stringify(this.store.cart)); // rimuovo anche nel localStorage
         }
       }
     },
@@ -65,16 +78,9 @@ export default {
             this.store.cart.splice(existingCartItemIndex, 1); // Rimuove il piatto dal carrello se la quantità diventa zero
             dish.showAddRemoveById = false;
           }
-        } else {
-          const cartItem = {
-            id: dish.id,
-            name: dish.name,
-            image: dish.image,
-            price: dish.price,
-            quantity: 1,
-          };
-          this.store.cart.push(cartItem);
         }
+        // aggiorno il localStorege dopo la modifica della quantità
+        localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
       }
     },
 
@@ -86,6 +92,8 @@ export default {
       );
       if (existingCartItemIndex !== -1) {
         this.store.cart[existingCartItemIndex].quantity++;
+        // aggiorno il localStorage dopo la modifica della quantità
+        localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
       } else {
         const cartItem = {
           id: dish.id,
@@ -95,6 +103,8 @@ export default {
           quantity: 1,
         };
         this.store.cart.push(cartItem);
+        // aggiorno il localStorage dopo l'aggiunta di un elemento al carrello
+        localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
       }
     },
 
@@ -120,6 +130,9 @@ export default {
         };
         this.store.cart.push(cartItem);
       }
+
+      // aggiungo i dati del carrello nel localStorage
+      localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
     },
   },
 
