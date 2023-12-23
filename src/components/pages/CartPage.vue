@@ -10,13 +10,13 @@ export default {
   },
 
   mounted() {
-    this.loadSelectedDishesFromLocalStorage();
+    this.loadCartFromLocalStorage();
   },
 
   computed: {
     totalPrice() {
       let sum = 0;
-      this.store.selectedDishes.forEach(function (item) {
+      this.store.cart.forEach(function (item) {
         let itemTotal = parseFloat(item.price) * parseInt(item.quantity);
         sum += itemTotal;
       });
@@ -25,19 +25,16 @@ export default {
   },
 
   methods: {
-    loadSelectedDishesFromLocalStorage() {
-      const selectedDishes = localStorage.getItem("selectedDishes");
-      if (selectedDishes) {
-        this.store.selectedDishes = JSON.parse(selectedDishes);
+    loadCartFromLocalStorage() {
+      const cartItems = localStorage.getItem("cartItems");
+      if (cartItems) {
+        this.store.cart = JSON.parse(cartItems);
       }
     },
 
     clearCart() {
-      this.store.selectedDishes = [];
-      localStorage.setItem(
-        "selectedDishes",
-        JSON.stringify(this.store.selectedDishes)
-      );
+      this.store.cart = [];
+      localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
     },
   },
 };
@@ -45,7 +42,7 @@ export default {
 
 <template>
   <div class="wrapper">
-    <div class="card" v-for="dish in store.selectedDishes">
+    <div class="card" v-for="dish in store.cart">
       <ul>
         <li>{{ dish.name }}</li>
         <li>{{ dish.price }}</li>
