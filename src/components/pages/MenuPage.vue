@@ -126,9 +126,10 @@ export default {
           name: dish.name,
           image: dish.image,
           price: dish.price,
-          quantity: dish.quantity,
+          quantity: 1,
         };
         this.store.cart.push(cartItem);
+        dish.quantity = 1;
       }
 
       // aggiungo i dati del carrello nel localStorage

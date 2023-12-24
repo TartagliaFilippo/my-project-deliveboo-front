@@ -78,24 +78,48 @@ export default {
 
 <template>
   <div class="wrapper">
-    <div class="card" v-for="dish in store.cart">
-      <ul v-show="dish.quantity > 0">
-        <li>{{ dish.name }}</li>
-        <li>{{ dish.price }}</li>
-        <li>
-          <div class="quantity-controls">
-            <div @click="decrementCartItem(dish)" class="control-button">-</div>
-            <div class="quantity">{{ dish.quantity }}</div>
-            <div @click="incrementCartItem(dish)" class="control-button">+</div>
-            <div @click="removeFromCart(dish)" class="remove-button">
-              Remove
-            </div>
-          </div>
-        </li>
-      </ul>
+    <div class="wrapper-left">
+      <table class="table" v-if="store.cart.length > 0">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Dish Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="dish in store.cart">
+            <th scope="row">{{ dish.id }}</th>
+            <td>{{ dish.name }}</td>
+            <td>{{ dish.price }}</td>
+            <td>
+              <div class="container-quantity">
+                <div class="quantity-controls row">
+                  <div @click="decrementCartItem(dish)" class="control-button">
+                    <span class="sign">-</span>
+                  </div>
+                  <div class="quantity">{{ dish.quantity }}</div>
+                  <div @click="incrementCartItem(dish)" class="control-button">
+                    <span class="sign">+</span>
+                  </div>
+                </div>
+                <button @click="removeFromCart(dish)" class="btn btn-danger">
+                  Remove
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="empty-cart" v-else>
+        <h2 class="text-center">Cart is Empty</h2>
+      </div>
     </div>
-    <div class="total">{{ totalPrice }}</div>
-    <div class="btn btn-danger" @click="clearCart()">Empty Cart</div>
+    <div class="wrapper-right">
+      <div class="total">Total Order: {{ totalPrice }}</div>
+      <div class="btn btn-danger my-3" @click="clearCart()">Empty Cart</div>
+    </div>
   </div>
 </template>
 
@@ -107,5 +131,53 @@ export default {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+
+  .wrapper-left {
+    width: 70%;
+
+    .container-quantity {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .quantity-controls {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: nowrap;
+        height: 50px;
+
+        .control-button {
+          height: 100%;
+          width: 50px;
+          background-color: #d2fffe;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: 50%;
+          cursor: pointer;
+
+          .sign {
+            font-size: 30px;
+            font-weight: 600;
+          }
+        }
+
+        .quantity {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 30px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .wrapper-right {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 </style>
