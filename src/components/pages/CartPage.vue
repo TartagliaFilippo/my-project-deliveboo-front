@@ -1,4 +1,5 @@
 <script>
+import axios from "axios";
 import { store } from "../../data/store";
 
 export default {
@@ -6,6 +7,16 @@ export default {
     return {
       title: "Sono il carrello",
       store,
+      formData: {
+        name: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        address: "",
+        address_number: "",
+        total: 0,
+        cart: [],
+      },
     };
   },
 
@@ -72,6 +83,20 @@ export default {
         localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
       }
     },
+
+    submitForm() {
+      this.formData.total = this.totalPrice;
+      this.formData.cart = this.store.cart;
+
+      axios
+        .post(store.baseUrl + "orders", this.formData)
+        .then((response) => {
+          console.log("dati inviati con successo", response.data);
+        })
+        .catch((error) => {
+          console.error("errore nella richiesta POST", error);
+        });
+    },
   },
 };
 </script>
@@ -119,6 +144,117 @@ export default {
     <div class="wrapper-right">
       <div class="total">Total Order: {{ totalPrice }}</div>
       <div class="btn btn-danger my-3" @click="clearCart()">Empty Cart</div>
+      <!-- <router-link class="btn btn-success" :to="{ name: 'checkout' }"
+        >Go to payment
+      </router-link> -->
+      <button
+        class="btn btn-primary"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#staticBackdrop"
+        aria-controls="staticBackdrop"
+      >
+        Go to Payment
+      </button>
+    </div>
+    <div
+      class="offcanvas offcanvas-start text-bg-dark"
+      data-bs-backdrop="static"
+      tabindex="-1"
+      id="staticBackdrop"
+      aria-labelledby="staticBackdropLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="staticBackdropLabel">Order Data</h5>
+        <button
+          type="button"
+          class="btn-close text-light"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <form class="row my-2 width-50" @submit.prevent="submitForm">
+          <div class="col-12 mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input
+              type="text"
+              class="input-form"
+              name="name"
+              id="name"
+              v-model="formData.name"
+              required
+            />
+          </div>
+
+          <div class="col-12 mb-3">
+            <label for="lastname" class="form-label">Lastname:</label>
+            <input
+              type="text"
+              class="input-form"
+              name="lastname"
+              id="lastname"
+              v-model="formData.lastname"
+              required
+            />
+          </div>
+
+          <div class="col-12 mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input
+              type="email"
+              class="input-form"
+              name="email"
+              id="email"
+              v-model="formData.email"
+              required
+            />
+          </div>
+
+          <div class="col-12 mb-3">
+            <label for="phone" class="form-label">Phone:</label>
+            <input
+              type="text"
+              class="input-form"
+              name="phone"
+              id="phone"
+              v-model="formData.phone"
+              required
+            />
+          </div>
+
+          <div class="col-12 mb-3">
+            <label for="address" class="form-label">Address:</label>
+            <input
+              type="text"
+              class="input-form"
+              name="address"
+              id="address"
+              v-model="formData.address"
+              required
+            />
+          </div>
+
+          <div class="col-12 mb-3">
+            <label for="address_number" class="form-label"
+              >Address Number:</label
+            >
+            <input
+              type="text"
+              class="input-form"
+              name="address_number"
+              id="address_number"
+              v-model="formData.address_number"
+              required
+            />
+          </div>
+
+          <!-- Bottone di invio -->
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary mt-4">Send</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -178,6 +314,16 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .offcanvas {
+    --bs-offcanvas-width: 100%;
+    &.offcanvas-start {
+      top: 30%;
+      left: 0;
+      bottom: 0;
+      right: 0;
+    }
   }
 }
 </style>

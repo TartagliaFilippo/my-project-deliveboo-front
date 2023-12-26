@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "../components/pages/HomePage.vue";
 import MenuPage from "../components/pages/MenuPage.vue";
 import CartPage from "../components/pages/CartPage.vue";
+import CheckoutPage from "../components/pages/CheckoutPage.vue";
 
 //importo le varie rotte
 
@@ -23,6 +24,11 @@ const router = createRouter({
       name: "cart",
       path: "/cart",
       component: CartPage,
+    },
+    {
+      name: "checkout",
+      path: "/checkout",
+      component: CheckoutPage,
     },
   ],
 });
