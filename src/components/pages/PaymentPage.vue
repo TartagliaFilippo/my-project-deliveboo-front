@@ -2,6 +2,7 @@
 import axios from "axios";
 import { store } from "../../data/store";
 import braintree from "braintree-web";
+import { router } from "../../router/index";
 
 export default {
   data() {
@@ -33,8 +34,8 @@ export default {
     async setupPayment() {
       try {
         // Elimina i campi Hosted Fields precedenti, se presenti
-        if (this.hostedFieldsInstance) {
-          this.hostedFieldsInstance.teardown();
+        if (this.hostedFields) {
+          this.hostedFields.teardown();
         }
 
         const response = await axios.get(store.baseUrl + "generate");
@@ -82,6 +83,13 @@ export default {
         });
 
         console.log("Risposta pagamento: positiva", response.data);
+        // svuoto il carrello e il localStorage se il pagamento è stato effettuato
+        this.store.cart = [];
+        localStorage.removeItem("cartItems");
+        // elimino i precedenti campi di hostedFields
+        this.hostedFields.teardown();
+        // vado alla rotta di ringraziamento
+        router.push({ name: "thanks" });
       } catch (error) {
         console.error("Errore durante il pagamento:", error);
       }

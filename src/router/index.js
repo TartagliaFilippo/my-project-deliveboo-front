@@ -3,6 +3,7 @@ import HomePage from "../components/pages/HomePage.vue";
 import MenuPage from "../components/pages/MenuPage.vue";
 import CartPage from "../components/pages/CartPage.vue";
 import PaymentPage from "../components/pages/PaymentPage.vue";
+import ThanksPage from "../components/pages/ThanksPage.vue";
 
 //importo le varie rotte
 
@@ -29,6 +30,11 @@ const router = createRouter({
       name: "payment",
       path: "/payment",
       component: PaymentPage,
+    },
+    {
+      name: "thanks",
+      path: "/thank-you",
+      component: ThanksPage,
     },
   ],
 });
