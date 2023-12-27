@@ -1,11 +1,12 @@
 <script>
 import axios from "axios";
 import { store } from "../../data/store";
+import { router } from "../../router/index";
 
 export default {
   data() {
     return {
-      title: "Sono il carrello",
+      title: "Cart",
       store,
       formData: {
         name: "",
@@ -84,6 +85,7 @@ export default {
       }
     },
 
+    // form che invia i dati dell'utente che fatto l'ordine
     submitForm() {
       this.formData.total = this.totalPrice;
       this.formData.cart = this.store.cart;
@@ -92,6 +94,21 @@ export default {
         .post(store.baseUrl + "orders", this.formData)
         .then((response) => {
           console.log("dati inviati con successo", response.data);
+
+          if (response.status === 201) {
+            this.formData = {
+              name: "",
+              lastname: "",
+              email: "",
+              phone: "",
+              address: "",
+              address_number: "",
+              total: "",
+              cart: [],
+            };
+            // reindirizzol'utente alla pagina del pagamento
+            router.push({ name: "payment" });
+          }
         })
         .catch((error) => {
           console.error("errore nella richiesta POST", error);
