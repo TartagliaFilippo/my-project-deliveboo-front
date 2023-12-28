@@ -82,9 +82,28 @@ export default {
       }
     },
 
+    checkRestaurant(dish) {
+      if (this.store.cart.length > 0) {
+        const cartRestaurantId = this.store.cart[0].restaurant_id; // Ottieni l'ID del ristorante nel carrello
+        if (cartRestaurantId !== dish.restaurant_id) {
+          // Se il ristorante nel carrello è diverso dal ristorante del piatto che si sta cercando di aggiungere
+          alert(
+            "Attenzione: Puoi aggiungere piatti solo dallo stesso ristorante."
+          );
+          return false; // Non aggiungere il piatto al carrello
+        }
+      }
+      return true; // Aggiungi il piatto al carrello se tutto è corretto
+    },
+
     //aggiunta al carrello per determinato piatto
     addToCart(dish) {
       dish.showAddRemove = true;
+
+      if (!this.checkRestaurant(dish)) {
+        dish.showAddRemove = false;
+        return; // Non aggiungere il piatto se il ristorante è diverso
+      }
 
       const existingCartItemIndex = this.store.cart.findIndex(
         (item) => item.id === dish.id
