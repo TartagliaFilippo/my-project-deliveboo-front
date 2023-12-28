@@ -9,6 +9,7 @@ export default {
       title: "Cart",
       store,
       formData: {
+        restaurant_id: "",
         name: "",
         lastname: "",
         email: "",
@@ -89,6 +90,7 @@ export default {
     submitForm() {
       this.formData.total = this.totalPrice;
       this.formData.cart = this.store.cart;
+      this.formData.restaurant_id = this.store.cart[0].restaurant_id;
 
       axios
         .post(store.baseUrl + "orders", this.formData)
@@ -97,6 +99,7 @@ export default {
 
           if (response.status === 201) {
             this.formData = {
+              restaurant_id: "",
               name: "",
               lastname: "",
               email: "",

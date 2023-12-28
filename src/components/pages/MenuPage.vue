@@ -97,6 +97,7 @@ export default {
       } else {
         const cartItem = {
           id: dish.id,
+          restaurant_id: dish.restaurant_id,
           name: dish.name,
           image: dish.image,
           price: dish.price,
@@ -123,6 +124,7 @@ export default {
         // Se l'articolo non è nel carrello, aggiungilo
         const cartItem = {
           id: dish.id,
+          restaurant_id: dish.restaurant_id,
           name: dish.name,
           image: dish.image,
           price: dish.price,
