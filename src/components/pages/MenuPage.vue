@@ -41,7 +41,20 @@ export default {
         )
         .then((response) => {
           this.dishes = response.data.map((dish) => {
-            return { ...dish, showAddRemoveById: false, quantity: 0 }; // aggiungo la quantità e la visibilità dell'addRemove
+            const cartItem = this.store.cart.find(
+              (item) => item.id === dish.id
+            );
+            if (cartItem) {
+              // Se il piatto è nel carrello, aggiorna le informazioni
+              return {
+                ...dish,
+                showAddRemove: true,
+                quantity: cartItem.quantity,
+              };
+            } else {
+              // Se non è nel carrello, lascia inalterato il piatto
+              return { ...dish, showAddRemove: false, quantity: 0 };
+            }
           });
         });
     },
@@ -55,10 +68,10 @@ export default {
     },
 
     //mostra il componente o lo rimuove addAndRemove
-    showAddRemove(dish) {
-      dish.showAddRemoveById = !dish.showAddRemoveById;
+    toggleAddRemove(dish) {
+      dish.showAddRemove = !dish.showAddRemove;
 
-      if (!dish.showAddRemoveById) {
+      if (!dish.showAddRemove) {
         const existingCartItemIndex = this.store.cart.findIndex(
           (item) => item.id === dish.id
         );
@@ -71,7 +84,7 @@ export default {
 
     //aggiunta al carrello per determinato piatto
     addToCart(dish) {
-      dish.showAddRemoveById = true;
+      dish.showAddRemove = true;
 
       const existingCartItemIndex = this.store.cart.findIndex(
         (item) => item.id === dish.id
@@ -89,6 +102,7 @@ export default {
           image: dish.image,
           price: dish.price,
           quantity: 1,
+          showAddRemove: true,
         };
         this.store.cart.push(cartItem);
         dish.quantity = 1;
@@ -109,7 +123,7 @@ export default {
           this.store.cart[existingCartItemIndex].quantity--;
           if (this.store.cart[existingCartItemIndex].quantity === 0) {
             this.store.cart.splice(existingCartItemIndex, 1); // Rimuove il piatto dal carrello se la quantità diventa zero
-            dish.showAddRemoveById = false;
+            dish.showAddRemove = false;
           }
         }
         // aggiorno il localStorege dopo la modifica della quantità
@@ -126,18 +140,6 @@ export default {
       if (existingCartItemIndex !== -1) {
         this.store.cart[existingCartItemIndex].quantity++;
         // aggiorno il localStorage dopo la modifica della quantità
-        localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
-      } else {
-        const cartItem = {
-          id: dish.id,
-          restaurant_id: dish.restaurant_id,
-          name: dish.name,
-          image: dish.image,
-          price: dish.price,
-          quantity: 1,
-        };
-        this.store.cart.push(cartItem);
-        // aggiorno il localStorage dopo l'aggiunta di un elemento al carrello
         localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
       }
     },
@@ -160,15 +162,12 @@ export default {
             <div class="text-center">
               <div
                 class="btn btn-primary"
-                v-if="dish.showAddRemoveById == false"
+                v-if="dish.showAddRemove == false"
                 @click="addToCart(dish)"
               >
                 Add to Cart
               </div>
-              <div
-                class="container-add-cart"
-                v-if="dish.showAddRemoveById == true"
-              >
+              <div class="container-add-cart" v-if="dish.showAddRemove == true">
                 <div class="row container-componets">
                   <div @click="decrementsValue(dish)" class="col-2 componet">
                     <span class="sign">-</span>
@@ -180,7 +179,7 @@ export default {
                     <span class="sign">+</span>
                   </div>
                 </div>
-                <button class="btn btn-danger" @click="showAddRemove(dish)">
+                <button class="btn btn-danger" @click="toggleAddRemove(dish)">
                   Remove
                 </button>
               </div>
