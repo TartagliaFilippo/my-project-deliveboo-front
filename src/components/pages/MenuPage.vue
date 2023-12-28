@@ -15,6 +15,11 @@ export default {
     this.viewCart();
   },
 
+  mounted() {
+    this.fetchRestaurant();
+    this.fetchDishes();
+  },
+
   methods: {
     // api per restaurantInfo specifico
     fetchRestaurant() {
@@ -43,7 +48,6 @@ export default {
 
     // inizializzo il localStorage con il carrello
     viewCart() {
-      // recupero i dati dal localStorage durante la creazione della pagina
       const storedCartItems = localStorage.getItem("cartItems");
       if (storedCartItems) {
         this.store.cart = JSON.parse(storedCartItems);
@@ -63,6 +67,35 @@ export default {
           localStorage.setItem("cartItems", JSON.stringify(this.store.cart)); // rimuovo anche nel localStorage
         }
       }
+    },
+
+    //aggiunta al carrello per determinato piatto
+    addToCart(dish) {
+      dish.showAddRemoveById = true;
+
+      const existingCartItemIndex = this.store.cart.findIndex(
+        (item) => item.id === dish.id
+      );
+
+      if (existingCartItemIndex !== -1) {
+        // Se l'articolo è già nel carrello, aggiorna solo la quantità
+        this.store.cart[existingCartItemIndex].quantity += dish.quantity;
+      } else {
+        // Se l'articolo non è nel carrello, aggiungilo
+        const cartItem = {
+          id: dish.id,
+          restaurant_id: dish.restaurant_id,
+          name: dish.name,
+          image: dish.image,
+          price: dish.price,
+          quantity: 1,
+        };
+        this.store.cart.push(cartItem);
+        dish.quantity = 1;
+      }
+
+      // aggiungo i dati del carrello nel localStorage
+      localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
     },
 
     // decremento quantità piatti
@@ -108,40 +141,6 @@ export default {
         localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
       }
     },
-
-    //aggiunta al carrello per determinato piatto
-    addToCart(dish) {
-      dish.showAddRemoveById = true;
-
-      const existingCartItemIndex = this.store.cart.findIndex(
-        (item) => item.id === dish.id
-      );
-
-      if (existingCartItemIndex !== -1) {
-        // Se l'articolo è già nel carrello, aggiorna solo la quantità
-        this.store.cart[existingCartItemIndex].quantity += dish.quantity;
-      } else {
-        // Se l'articolo non è nel carrello, aggiungilo
-        const cartItem = {
-          id: dish.id,
-          restaurant_id: dish.restaurant_id,
-          name: dish.name,
-          image: dish.image,
-          price: dish.price,
-          quantity: 1,
-        };
-        this.store.cart.push(cartItem);
-        dish.quantity = 1;
-      }
-
-      // aggiungo i dati del carrello nel localStorage
-      localStorage.setItem("cartItems", JSON.stringify(this.store.cart));
-    },
-  },
-
-  mounted() {
-    this.fetchRestaurant();
-    this.fetchDishes();
   },
 };
 </script>
