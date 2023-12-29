@@ -1,7 +1,6 @@
 <script>
 import axios from "axios";
 import { store } from "../../data/store";
-// import MyComponent from "./components/MyComponent.vue";
 
 export default {
   data() {
@@ -13,10 +12,6 @@ export default {
       selectedTypeIds: [],
     };
   },
-
-  // components: {
-  //   MyComponent,
-  // },
 
   methods: {
     fetchRestaurants() {
@@ -103,13 +98,17 @@ export default {
       </div>
       <div class="row">
         <div
-          class="col-4"
+          class="col-4 my-3"
           v-for="restaurant in filteredRestaurants"
           :key="restaurant.id"
           :restaurantId="restaurant.id"
         >
-          <div class="card">
-            <img src="..." class="card-img-top" alt="..." />
+          <div class="card h-100">
+            <img
+              :src="store.pathImageRestaurants + restaurant.image"
+              class="card-img-top"
+              :alt="restaurant.image"
+            />
             <div class="card-body">
               <h5 class="card-title">{{ restaurant.name }}</h5>
               <p class="card-text">{{ restaurant.description }}</p>

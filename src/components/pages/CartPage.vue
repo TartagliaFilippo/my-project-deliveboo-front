@@ -128,6 +128,7 @@ export default {
         <thead>
           <tr>
             <th scope="col">#</th>
+            <th scope="col">Image</th>
             <th scope="col">Dish Name</th>
             <th scope="col">Price</th>
             <th scope="col">Quantity</th>
@@ -136,6 +137,12 @@ export default {
         <tbody>
           <tr v-for="dish in store.cart">
             <th scope="row">{{ dish.id }}</th>
+            <td class="image-data">
+              <img
+                :src="store.pathImageDishes + dish.image"
+                :alt="dish.image"
+              />
+            </td>
             <td>{{ dish.name }}</td>
             <td>{{ dish.price }}</td>
             <td>
@@ -290,6 +297,14 @@ export default {
 
   .wrapper-left {
     width: 70%;
+
+    .image-data {
+      width: 50px;
+
+      img {
+        max-width: 100%;
+      }
+    }
 
     .container-quantity {
       display: flex;

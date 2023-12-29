@@ -170,14 +170,20 @@ export default {
   <div class="container">
     <h1>Menu di {{ restaurantInfo.name }}</h1>
     <div class="row">
-      <div class="col-6" v-for="(dish, index) in dishes" :key="dish.id">
-        <div class="card">
-          <h5 class="card-header">{{ dish.name }}</h5>
+      <div class="col-4 my-3" v-for="(dish, index) in dishes" :key="dish.id">
+        <div class="card h-100">
+          <img
+            :src="store.pathImageDishes + dish.image"
+            class="card-img-top"
+            :alt="dish.image"
+          />
           <div class="card-body">
-            <h5 class="card-title">{{ dish.ingredients }}</h5>
-            <p class="card-text">
-              {{ dish.description }}
-            </p>
+            <h5 class="card-title">{{ dish.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Ingredients:</h6>
+            <p class="card-text">{{ dish.ingredients }}</p>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Description:</h6>
+            <p class="card-text text-center">{{ dish.description }}</p>
+            <p class="fw-bold">Price: {{ dish.price }} €</p>
             <div class="text-center">
               <div
                 class="btn btn-primary"
