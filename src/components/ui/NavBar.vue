@@ -1,7 +1,18 @@
 <script>
+import { store } from "../../data/store";
+
 export default {
   data() {
-    return {};
+    return {
+      store,
+    };
+  },
+
+  methods: {
+    calculateCartLength() {
+      let cartLength = store.cart.length;
+      return cartLength;
+    },
   },
 };
 </script>
@@ -31,13 +42,16 @@ export default {
               >Home
             </router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item cart">
             <router-link
               class="nav-link"
               aria-current="page"
               :to="{ name: 'cart' }"
-              >Cart
+              ><font-awesome-icon icon="cart-shopping" />
             </router-link>
+            <span v-if="calculateCartLength() > 0" class="cart-length">
+              {{ calculateCartLength() }}
+            </span>
           </li>
         </ul>
       </div>
@@ -45,4 +59,19 @@ export default {
   </nav>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.nav-item.cart {
+  position: relative;
+  .cart-length {
+    position: absolute;
+    top: 0;
+    left: 80%;
+    font-size: 10px;
+    font-weight: bold;
+    color: rgb(70, 137, 70);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+</style>

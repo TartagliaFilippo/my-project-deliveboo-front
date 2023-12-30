@@ -76,12 +76,6 @@ export default {
 
 <template>
   <div class="wrapper-home">
-    <div class="container-image left">
-      <img src="../../../public/img/grocery-bag-jumbotron.png" alt="" />
-    </div>
-    <div class="container-image right">
-      <img src="../../../public/img/mastro-ciccio-burger.png" alt="" />
-    </div>
     <div class="container">
       <h1>{{ title }}</h1>
       <div class="row">
@@ -130,36 +124,8 @@ export default {
 
 <style lang="scss" scoped>
 .wrapper-home {
-  background-color: rgb(25, 25, 25);
-  color: whitesmoke;
+  background-color: rgb(217, 116, 1);
+  color: rgb(255, 250, 244);
   width: 100%;
-  height: 100vh;
-  position: relative;
-
-  .container-image {
-    width: 40%;
-    height: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    z-index: 0;
-
-    &.right {
-      height: 45%;
-      right: 0;
-      top: 25%;
-    }
-
-    &.left {
-      left: 0;
-      top: 25%;
-    }
-    img {
-      max-height: 100%;
-      max-width: 100%;
-      background-size: cover;
-    }
-  }
 }
 </style>
