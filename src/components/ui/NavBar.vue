@@ -5,6 +5,7 @@ export default {
   data() {
     return {
       store,
+      selectedTheme: "default",
     };
   },
 
@@ -12,6 +13,43 @@ export default {
     calculateCartLength() {
       let cartLength = store.cart.length;
       return cartLength;
+    },
+
+    changeTheme() {
+      if (this.selectedTheme === "default") {
+        document.documentElement.style.setProperty("--bg-primary", "#f5c127");
+        document.documentElement.style.setProperty(
+          "--bg-primary-100",
+          "#f5a827"
+        );
+        document.documentElement.style.setProperty(
+          "--bg-primary-300",
+          "#f58727"
+        );
+        document.documentElement.style.setProperty(
+          "--bg-primary-500",
+          "#f56327"
+        );
+        document.documentElement.style.setProperty(
+          "--bg-primary-700",
+          "#f41212"
+        );
+        document.documentElement.style.setProperty(
+          "--bg-primary-900",
+          "#f520a0"
+        );
+        document.documentElement.style.setProperty(
+          "--bg-primary-shine",
+          "#f5d816"
+        );
+        document.documentElement.style.setProperty("--bg-black", "#101010");
+        document.documentElement.style.setProperty(
+          "--bg-light-grey",
+          "#969696"
+        );
+        document.documentElement.style.setProperty("--bg-grey", "#555555");
+        document.documentElement.style.setProperty("--bg-white", "#e9e9e9");
+      }
     },
   },
 };
@@ -52,6 +90,17 @@ export default {
             <span v-if="calculateCartLength() > 0" class="cart-length">
               {{ calculateCartLength() }}
             </span>
+          </li>
+          <li class="nav-item">
+            <select
+              v-model="selectedTheme"
+              @change="changeTheme"
+              name="change-theme"
+              id="change-theme"
+            >
+              <option value="default">default</option>
+              <option value="other-theme">other-theme</option>
+            </select>
           </li>
         </ul>
       </div>
