@@ -98,7 +98,7 @@ export default {
               name="change-theme"
               id="change-theme"
             >
-              <option value="default">default</option>
+              <option selected value="default">default</option>
               <option value="other-theme">other-theme</option>
             </select>
           </li>

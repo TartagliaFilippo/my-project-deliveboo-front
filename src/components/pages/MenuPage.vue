@@ -167,46 +167,54 @@ export default {
 </script>
 
 <template>
-  <div class="container">
-    <h1>Menu di {{ restaurantInfo.name }}</h1>
-    <div class="row">
-      <div class="col-4 my-3" v-for="(dish, index) in dishes" :key="dish.id">
-        <div class="card h-100">
-          <img
-            :src="store.pathImageDishes + dish.image"
-            class="card-img-top"
-            :alt="dish.image"
-          />
-          <div class="card-body">
-            <h5 class="card-title">{{ dish.name }}</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">Ingredients:</h6>
-            <p class="card-text">{{ dish.ingredients }}</p>
-            <h6 class="card-subtitle mb-2 text-body-secondary">Description:</h6>
-            <p class="card-text text-center">{{ dish.description }}</p>
-            <p class="fw-bold">Price: {{ dish.price }} €</p>
-            <div class="text-center">
-              <div
-                class="btn btn-primary"
-                v-if="dish.showAddRemove == false"
-                @click="addToCart(dish)"
-              >
-                Add to Cart
-              </div>
-              <div class="container-add-cart" v-if="dish.showAddRemove == true">
-                <div class="row container-componets">
-                  <div @click="decrementsValue(dish)" class="col-2 componet">
-                    <span class="sign">-</span>
-                  </div>
-                  <span class="col-3 quantity-value">
-                    {{ dish.quantity }}
-                  </span>
-                  <div @click="incrementsValue(dish)" class="col-2 componet">
-                    <span class="sign">+</span>
-                  </div>
+  <div class="wrapper-menu">
+    <div class="container">
+      <h1>Menu di {{ restaurantInfo.name }}</h1>
+      <div class="row">
+        <div class="dish col-3 my-3" v-for="dish in dishes" :key="dish.id">
+          <div class="card-dishes h-100"><div class="container-image">
+            <img class="img-fluid" :src="store.pathImageDishes + dish.image" :alt="dish.image">
+          </div>
+          <div class="container-content h-100">
+            <h3>{{ dish.name }}</h3>
+            <p class="ingredients-text">
+              <h6>Ingredients:</h6>
+              <p>{{ dish.ingredients }}</p>
+            </p>
+            <p class="description-text">
+              <h6>Description:</h6>
+              <p>{{ dish.description }}</p>
+            </p>
+            <p class="price-text">
+              <h6>Price: {{ dish.price }} €</h6>
+            </p>
+            <div class="container-add-cart text-center mt-auto pb-2">
+                <div
+                  class="btn btn-primary"
+                  v-if="dish.showAddRemove == false"
+                  @click="addToCart(dish)"
+                >
+                  Add to Cart
                 </div>
-                <button class="btn btn-danger" @click="toggleAddRemove(dish)">
-                  Remove
-                </button>
+                <div
+                  class="container-add-remove"
+                  v-if="dish.showAddRemove == true"
+                >
+                  <div class="row container-componets">
+                    <div @click="decrementsValue(dish)" class="col-2 componet">
+                      <font-awesome-icon :icon="['fas', 'minus']" />
+                    </div>
+                    <span class="col-3 quantity-value">
+                      {{ dish.quantity }}
+                    </span>
+                    <div @click="incrementsValue(dish)" class="col-2 componet">
+                      <font-awesome-icon :icon="['fas', 'plus']" />
+                    </div>
+                  </div>
+                  <button class="btn btn-danger" @click="toggleAddRemove(dish)">
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -217,33 +225,66 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.container-componets {
-  flex-direction: row;
-  justify-content: center;
-  height: 50px;
+@use "../../assets/scss/variables.scss" as *;
 
-  .componet {
-    height: 100%;
-    width: 50px;
-    background-color: #d2fffe;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-    cursor: pointer;
-
-    .sign {
-      font-size: 30px;
-      font-weight: 600;
+.wrapper-menu {
+  background-color: var(--bg-primary);
+  .container {
+    .dish {
+      .card-dishes {
+        background-color: var(--bg-primary-100); 
+        display: flex;
+        flex-direction: column;
+        .container-image {
+          padding: 1rem;
+          
+          img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            overflow: hidden;        
+          }
+        }
+        .container-content {
+          display: flex;
+          flex-direction: column;
+          margin: 0 1rem 0 1rem;
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          background: linear-gradient(0deg, var(--bg-primary-100) 55%, var(--bg-primary-500) 100%);
+          .container-add-cart {
+            .container-add-remove {
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+              .container-componets {
+              flex-direction: row;
+              justify-content: space-evenly;
+              align-items: center;
+              height: 2rem;
+                .componet {
+                  height: 100%;
+                  width: 2rem;
+                  background-color: #d2fffe;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  border-radius: 0.4rem;
+                  cursor: pointer;
+                }
+                  .quantity-value {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1.5rem;
+                    font-weight: bold;
+              }
+            }
+           }     
+         }
+        }
+      }
     }
   }
-
-  .quantity-value {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    font-weight: bold;
-  }
 }
+
 </style>

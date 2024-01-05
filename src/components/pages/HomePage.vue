@@ -97,37 +97,37 @@ export default {
         </div>
         <div class="container-restaurants col-12 my-5">
           <div
-            class="col-3"
             v-for="restaurant in filteredRestaurants"
             :key="restaurant.id"
             :restaurantId="restaurant.id"
+            class="card-restaurant w-100"
           >
-            <div class="card h-100">
+            <div class="image-card col-3">
               <img
                 :src="store.pathImageRestaurants + restaurant.image"
-                class="card-img-top"
                 :alt="restaurant.image"
               />
-              <div class="card-body">
-                <h5 class="card-title">{{ restaurant.name }}</h5>
-                <p class="card-text">
-                  <span
-                    class="badge text-bg-primary"
-                    v-for="(type, index) in restaurant.types"
-                    :key="index"
-                    >{{ type.name }}</span
-                  >
-                </p>
-                <p class="card-text">{{ restaurant.description }}</p>
-                <router-link
-                  :to="{
-                    name: 'dishes-by-restaurant',
-                    params: { restaurantId: restaurant.id },
-                  }"
-                  class="btn btn-primary"
-                  >Menu
-                </router-link>
-              </div>
+            </div>
+            <div class="content-card col-8">
+              <h4>{{ restaurant.name }}</h4>
+              <p class="type-card">
+                <span
+                  class="badge text-bg-primary me-3"
+                  v-for="(type, index) in restaurant.types"
+                  :key="index"
+                  >{{ type.name }}</span
+                >
+              </p>
+              <p class="text-card">{{ restaurant.description }}</p>
+              <p class="information-card"></p>
+              <router-link
+                :to="{
+                  name: 'dishes-by-restaurant',
+                  params: { restaurantId: restaurant.id },
+                }"
+                class="btn btn-primary mb-2 mt-auto"
+                >Menu
+              </router-link>
             </div>
           </div>
         </div>
@@ -174,6 +174,38 @@ export default {
     flex-wrap: wrap;
     justify-content: space-evenly;
     gap: 2rem;
+
+    .card-restaurant {
+      display: flex;
+      justify-content: space-around;
+      background-color: var(--bg-primary-100);
+      padding: 0.5rem 0;
+
+      .image-card {
+        border-radius: 0.5rem;
+        overflow: hidden;
+        img {
+          max-width: 100%;
+        }
+      }
+    }
+    .content-card {
+      padding-left: 1rem;
+      border-radius: 1.1rem;
+      color: var(--bg-black);
+      display: flex;
+      flex-direction: column;
+      align-items: baseline;
+      background: linear-gradient(
+        200deg,
+        var(--bg-primary-100) 55%,
+        var(--bg-primary-500) 100%
+      );
+
+      h4 {
+        font-size: 2.2rem;
+      }
+    }
   }
 }
 </style>

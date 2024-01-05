@@ -17,10 +17,12 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import {
   faMagnifyingGlass,
   faCartShopping,
+  faPlus,
+  faMinus,
 } from "@fortawesome/free-solid-svg-icons";
 
 // le aggiungo alla libreria
-library.add(faMagnifyingGlass, faCartShopping);
+library.add(faMagnifyingGlass, faCartShopping, faPlus, faMinus);
 
 import App from "./App.vue";
 

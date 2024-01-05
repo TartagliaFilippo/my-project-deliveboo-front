@@ -122,77 +122,88 @@ export default {
 </script>
 
 <template>
-  <div class="wrapper">
-    <div class="wrapper-left">
-      <table class="table" v-if="store.cart.length > 0">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Image</th>
-            <th scope="col">Dish Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="dish in store.cart">
-            <th scope="row">{{ dish.id }}</th>
-            <td class="image-data">
-              <img
-                :src="store.pathImageDishes + dish.image"
-                :alt="dish.image"
-              />
-            </td>
-            <td>{{ dish.name }}</td>
-            <td>{{ dish.price }}</td>
-            <td>
-              <div class="container-quantity">
-                <div class="quantity-controls row">
-                  <div @click="decrementCartItem(dish)" class="control-button">
-                    <span class="sign">-</span>
+  <div class="wrapper-cart">
+    <div class="container">
+      <div class="row">
+        <div class="wrapper-left col-8">
+          <h2>Cart</h2>
+          <table v-if="store.cart.length > 0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Image</th>
+                <th>Dish Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="dish in store.cart">
+                <th scope="row">{{ dish.id }}</th>
+                <td class="image-data">
+                  <img
+                    :src="store.pathImageDishes + dish.image"
+                    :alt="dish.image"
+                  />
+                </td>
+                <td>{{ dish.name }}</td>
+                <td>{{ dish.price }}</td>
+                <td>
+                  <div class="container-quantity">
+                    <div class="quantity-controls">
+                      <div
+                        @click="decrementCartItem(dish)"
+                        class="control-button"
+                      >
+                        <font-awesome-icon :icon="['fas', 'minus']" />
+                      </div>
+                      <div class="quantity">{{ dish.quantity }}</div>
+                      <div
+                        @click="incrementCartItem(dish)"
+                        class="control-button"
+                      >
+                        <font-awesome-icon :icon="['fas', 'plus']" />
+                      </div>
+                    </div>
+                    <button
+                      @click="removeFromCart(dish)"
+                      class="btn btn-danger"
+                    >
+                      Remove
+                    </button>
                   </div>
-                  <div class="quantity">{{ dish.quantity }}</div>
-                  <div @click="incrementCartItem(dish)" class="control-button">
-                    <span class="sign">+</span>
-                  </div>
-                </div>
-                <button @click="removeFromCart(dish)" class="btn btn-danger">
-                  Remove
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="empty-cart" v-else>
-        <h2 class="text-center">Cart is Empty</h2>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="empty-cart" v-else>
+            <h2 class="text-center">Cart is Empty</h2>
+          </div>
+        </div>
+        <div class="wrapper-right col-4">
+          <div class="total">Your total order is: {{ totalPrice }}</div>
+          <button
+            class="btn btn-primary my-3"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#staticBackdrop"
+            aria-controls="staticBackdrop"
+          >
+            Go to Payment
+          </button>
+          <div class="btn btn-danger" @click="clearCart()">Empty Cart</div>
+        </div>
       </div>
     </div>
-    <div class="wrapper-right">
-      <div class="total">Total Order: {{ totalPrice }}</div>
-      <div class="btn btn-danger my-3" @click="clearCart()">Empty Cart</div>
-      <!-- <router-link class="btn btn-success" :to="{ name: 'checkout' }"
-        >Go to payment
-      </router-link> -->
-      <button
-        class="btn btn-primary"
-        type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#staticBackdrop"
-        aria-controls="staticBackdrop"
-      >
-        Go to Payment
-      </button>
-    </div>
     <div
-      class="offcanvas offcanvas-start text-bg-dark"
+      class="offcanvas offcanvas-end"
       data-bs-backdrop="static"
       tabindex="-1"
       id="staticBackdrop"
       aria-labelledby="staticBackdropLabel"
     >
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="staticBackdropLabel">Order Data</h5>
+        <h5 class="offcanvas-title" id="staticBackdropLabel">Data Order</h5>
         <button
           type="button"
           class="btn-close text-light"
@@ -201,79 +212,81 @@ export default {
         ></button>
       </div>
       <div class="offcanvas-body">
-        <form class="row my-2 width-50" @submit.prevent="submitForm">
-          <div class="col-12 mb-3">
-            <label for="name" class="form-label">Name:</label>
-            <input
-              type="text"
-              class="input-form"
-              name="name"
-              id="name"
-              v-model="formData.name"
-              required
-            />
-          </div>
+        <form class="my-2" @submit.prevent="submitForm">
+          <div class="row justify-content-center">
+            <div class="col-12 mb-3">
+              <label for="name" class="form-label">Name:</label>
+              <input
+                type="text"
+                class="input-form w-100"
+                name="name"
+                id="name"
+                v-model="formData.name"
+                required
+              />
+            </div>
 
-          <div class="col-12 mb-3">
-            <label for="lastname" class="form-label">Lastname:</label>
-            <input
-              type="text"
-              class="input-form"
-              name="lastname"
-              id="lastname"
-              v-model="formData.lastname"
-              required
-            />
-          </div>
+            <div class="col-12 mb-3">
+              <label for="lastname" class="form-label">Lastname:</label>
+              <input
+                type="text"
+                class="input-form w-100"
+                name="lastname"
+                id="lastname"
+                v-model="formData.lastname"
+                required
+              />
+            </div>
 
-          <div class="col-12 mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input
-              type="email"
-              class="input-form"
-              name="email"
-              id="email"
-              v-model="formData.email"
-              required
-            />
-          </div>
+            <div class="col-12 mb-3">
+              <label for="email" class="form-label">Email:</label>
+              <input
+                type="email"
+                class="input-form w-100"
+                name="email"
+                id="email"
+                v-model="formData.email"
+                required
+              />
+            </div>
 
-          <div class="col-12 mb-3">
-            <label for="phone" class="form-label">Phone:</label>
-            <input
-              type="text"
-              class="input-form"
-              name="phone"
-              id="phone"
-              v-model="formData.phone"
-              required
-            />
-          </div>
+            <div class="col-12 mb-3">
+              <label for="phone" class="form-label">Phone:</label>
+              <input
+                type="text"
+                class="input-form w-100"
+                name="phone"
+                id="phone"
+                v-model="formData.phone"
+                required
+              />
+            </div>
 
-          <div class="col-12 mb-3">
-            <label for="address" class="form-label">Address:</label>
-            <input
-              type="text"
-              class="input-form"
-              name="address"
-              id="address"
-              v-model="formData.address"
-              required
-            />
-          </div>
+            <div class="col-12 mb-3">
+              <label for="address" class="form-label">Address:</label>
+              <input
+                type="text"
+                class="input-form w-100"
+                name="address"
+                id="address"
+                v-model="formData.address"
+                required
+              />
+            </div>
 
-          <div class="col-12 mb-3">
-            <label for="address_number" class="form-label"
-              >Address Number:</label
-            >
-            <input
-              type="text"
-              class="input-form"
-              name="address_number"
-              id="address_number"
-              v-model="formData.address_number"
-              required
-            />
+            <div class="col-12 mb-3">
+              <label for="address_number" class="form-label"
+                >Address Number:</label
+              >
+              <input
+                type="text"
+                class="input-form w-100"
+                name="address_number"
+                id="address_number"
+                v-model="formData.address_number"
+                required
+              />
+            </div>
           </div>
 
           <!-- Bottone di invio -->
@@ -287,78 +300,94 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.wrapper {
-  background-color: rgb(163, 167, 52);
-  height: 100vh;
+@use "../../assets/scss/variables.scss" as *;
+.wrapper-cart {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-
-  .wrapper-left {
-    width: 70%;
-
-    .image-data {
-      width: 50px;
-
-      img {
-        max-width: 100%;
-      }
-    }
-
-    .container-quantity {
-      display: flex;
-      flex-direction: column;
+  position: relative;
+  .container {
+    .row {
       align-items: center;
-
-      .quantity-controls {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: nowrap;
-        height: 50px;
-
-        .control-button {
-          height: 100%;
-          width: 50px;
-          background-color: #d2fffe;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: 50%;
-          cursor: pointer;
-
-          .sign {
-            font-size: 30px;
-            font-weight: 600;
+      .wrapper-left {
+        table {
+          width: 100%;
+          border-right: 1px solid var(--bg-black);
+          border-radius: 1rem;
+          thead {
+            background-color: var(--bg-primary-700);
+            th {
+              text-align: center;
+              border: 1px solid var(--bg-black);
+            }
+          }
+          tbody {
+            background-color: var(--bg-primary-100);
+            text-align: center;
+            tr {
+              border-bottom: 1px solid var(--bg-black);
+              th {
+                background-color: var(--bg-primary-300);
+                border: 1px solid var(--bg-black);
+              }
+              td {
+                padding: 0.3rem;
+              }
+              .image-data {
+                width: 5rem;
+                img {
+                  max-width: 100%;
+                }
+              }
+            }
           }
         }
 
-        .quantity {
+        .container-quantity {
+          width: 100%;
           display: flex;
+          flex-direction: column;
           align-items: center;
-          justify-content: center;
-          font-size: 30px;
-          font-weight: bold;
+          gap: 0.5rem;
+          .quantity-controls {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 2rem;
+            .control-button {
+              height: 100%;
+              width: 2rem;
+              background-color: #d2fffe;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 0.4rem;
+              cursor: pointer;
+            }
+            .quantity {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.5rem;
+              font-weight: bold;
+            }
+          }
         }
+      }
+      .wrapper-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
       }
     }
   }
-
-  .wrapper-right {
-    width: 30%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
   .offcanvas {
-    --bs-offcanvas-width: 100%;
-    &.offcanvas-start {
-      top: 30%;
-      left: 0;
-      bottom: 0;
-      right: 0;
-    }
+    background-color: var(--bg-primary-100);
   }
 }
 </style>

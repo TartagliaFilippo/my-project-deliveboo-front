@@ -99,31 +99,50 @@ export default {
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="wrapper-payment">
     <div class="container">
       <h1>{{ title }}</h1>
-      <form class="ms-auto row my-2 width-50" @submit.prevent="handlePayment">
-        <div class="form-group">
-          <label for="card-number">Cart Number</label>
-          <div id="card-number"></div>
-        </div>
+      <div class="row">
+        <div class="col-9">
+          <form
+            class="ms-auto row my-2 width-50"
+            @submit.prevent="handlePayment"
+          >
+            <div class="form-group my-3">
+              <label for="card-number">Cart Number</label>
+              <div id="card-number"></div>
+            </div>
 
-        <div class="form-group">
-          <label for="expiration-date">Exipiration Date</label>
-          <div id="expiration-date"></div>
-        </div>
+            <div class="form-group my-3">
+              <label for="expiration-date">Exipiration Date</label>
+              <div id="expiration-date"></div>
+            </div>
 
-        <div class="form-group">
-          <label for="cvv">CVV</label>
-          <div id="cvv"></div>
-        </div>
+            <div class="form-group my-3">
+              <label for="cvv">CVV</label>
+              <div id="cvv"></div>
+            </div>
 
-        <div class="text-center">
-          <button type="submit" class="btn btn-primary mt-4">Pay</button>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary mt-4">Pay</button>
+            </div>
+          </form>
         </div>
-      </form>
+        <div class="col-3"></div>
+      </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@use "../../assets/scss/variables.scss" as *;
+.wrapper-payment {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+
+  .form-group > div {
+    background-color: var(--bg-white);
+    height: 6rem;
+  }
+}
+</style>
