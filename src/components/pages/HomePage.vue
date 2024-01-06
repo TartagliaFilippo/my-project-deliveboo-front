@@ -112,20 +112,23 @@ export default {
               <h4>{{ restaurant.name }}</h4>
               <p class="type-card">
                 <span
-                  class="badge text-bg-primary me-3"
+                  class="badge-type me-3"
                   v-for="(type, index) in restaurant.types"
                   :key="index"
                   >{{ type.name }}</span
                 >
               </p>
               <p class="text-card">{{ restaurant.description }}</p>
-              <p class="information-card"></p>
+              <p class="information-card">
+                <p><h6>Address:</h6>{{ restaurant.address }}, {{ restaurant.address_number }}</p>
+                <p><h6>Phone:</h6>{{ restaurant.phone }}</p>
+              </p>
               <router-link
                 :to="{
                   name: 'dishes-by-restaurant',
                   params: { restaurantId: restaurant.id },
                 }"
-                class="btn btn-primary mb-2 mt-auto"
+                class="button mb-2 mt-auto"
                 >Menu
               </router-link>
             </div>
@@ -140,7 +143,7 @@ export default {
 @use "../../assets/scss/variables.scss" as *;
 .wrapper-home {
   background-color: var(--bg-primary);
-  color: var(--bg-white);
+  color: var(--bg-black);
   width: 100%;
   min-height: 100vh;
 
@@ -158,11 +161,13 @@ export default {
       padding: 2px 7px;
       border-radius: 5px;
       background-color: var(--bg-primary-500);
+      color: var(--bg-white);
       box-shadow: 1px 1px var(--bg-black);
       cursor: pointer;
     }
     .type.active {
-      border: 2px solid var(--bg-white);
+      border: 2px solid var(--bg-black);
+      color: var(--bg-black);
       font-weight: bold;
       background-color: var(--bg-primary-shine);
       box-shadow: 0px 0px;
@@ -182,10 +187,10 @@ export default {
       padding: 0.5rem 0;
 
       .image-card {
-        border-radius: 0.5rem;
-        overflow: hidden;
         img {
           max-width: 100%;
+          border-radius: 0.5rem;
+          overflow: hidden;
         }
       }
     }
@@ -204,6 +209,30 @@ export default {
 
       h4 {
         font-size: 2.2rem;
+      }
+
+      .badge-type {
+        background-color: var(--bg-primary-700);
+        color: var(--bg-white);
+        font-weight: bold;
+        font-size: 0.8rem;
+        border-radius: 0.7rem;
+        padding: 1px 5px;
+      }
+      .button {
+        text-decoration: none;
+        border: 1px solid var(--bg-primary-700);
+        padding: 2px 7px;
+        border-radius: 5px;
+        background-color: var(--bg-primary-300);
+        color: var(--bg-black);
+        box-shadow: 1px 1px var(--bg-black);
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--bg-primary-700);
+          color: var(--bg-white);
+        }
       }
     }
   }
