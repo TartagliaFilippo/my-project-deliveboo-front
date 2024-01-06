@@ -155,6 +155,7 @@ export default {
     background-color: var(--bg-white);
     height: 6rem;
     padding: 1rem 2rem;
+    border-radius: 1rem;
   }
   .button-pay {
     border: 2px solid var(--bg-black);

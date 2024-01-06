@@ -2,7 +2,7 @@
 export default {
   data() {
     return {
-      title: "Grazie al cazzo!!!",
+      title: "Thank's for your order!",
     };
   },
 };
@@ -10,9 +10,19 @@ export default {
 
 <template>
   <div class="wrapper-thanks">
-    <div class="container">
-      <h1 class="text-center">{{ title }}</h1>
-      <router-link :to="{ name: 'homepage' }">Order again</router-link>
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-6 left-content">
+          <img src="../../../public/img/delivery/delivery-thanks.png" alt="" />
+        </div>
+        <div class="col-6 right-content px-4">
+          <h1 class="text-center mt-3">{{ title }}</h1>
+          <p class="text-center">We will be with you right away<span> &#128523 </span></p>
+          <p class="mt-auto py-2">If you want to order other dishes, 
+            <router-link :to="{ name: 'homepage' }" class="button">Click Here</router-link>
+          </p>  
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,5 +35,27 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  .right-content {
+    background-color: var(--bg-primary-300);
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    .button {
+      text-decoration: none;
+      border: 2px solid var(--bg-black);
+      padding: 2px 7px;
+      border-radius: 5px;
+      background-color: var(--bg-primary-900);
+      color: var(--bg-black);
+      box-shadow: 1px 1px var(--bg-black);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--bg-white);
+        font-weight: bold;
+      }
+  }
+  }
+  
 }
 </style>
