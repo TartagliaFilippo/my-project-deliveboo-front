@@ -108,7 +108,7 @@ export default {
   <div class="wrapper-payment">
     <div class="container">
       <h1>{{ title }}</h1>
-      <div class="row">
+      <div class="row flex-column-reverse align-items-center flex-lg-row">
         <div class="col-9">
           <form
             class="ms-auto row my-2 width-50"
@@ -168,6 +168,11 @@ export default {
     &:hover {
       background-color: var(--bg-white);
       font-weight: bold;
+    }
+  }
+  .col-3 {
+    img {
+      max-width: 100%;
     }
   }
 }

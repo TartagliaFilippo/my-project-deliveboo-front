@@ -124,8 +124,8 @@ export default {
 <template>
   <div class="wrapper-cart">
     <div class="container">
-      <div class="row">
-        <div class="wrapper-left col-8">
+      <div class="row flex-column flex-lg-row">
+        <div class="wrapper-left col-8 my-5">
           <h2 v-if="store.cart.length > 0">Cart</h2>
           <table v-if="store.cart.length > 0">
             <thead>
@@ -178,7 +178,7 @@ export default {
           </div>
         </div>
         <div class="wrapper-right col-4">
-          <div class="total">
+          <div class="total flex-column">
             Your total order is:
             <span class="badge-total">{{ totalPrice }} €</span>
           </div>
@@ -305,7 +305,6 @@ export default {
   background-color: var(--bg-primary);
   min-height: 100vh;
   display: flex;
-  flex-direction: row;
   justify-content: space-around;
   align-items: center;
   position: relative;
@@ -405,6 +404,8 @@ export default {
         gap: 2rem;
         .total {
           font-weight: bold;
+          display: flex;
+          align-items: center;
           .badge-total {
             border: 2px solid var(--bg-primary-700);
             background-color: var(--bg-white);

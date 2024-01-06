@@ -171,7 +171,7 @@ export default {
     <div class="container">
       <h1>Menu di {{ restaurantInfo.name }}</h1>
       <div class="row">
-        <div class="dish col-3 my-3" v-for="dish in dishes" :key="dish.id">
+        <div class="dish col-12 col-md-4 col-lg-3 my-3" v-for="dish in dishes" :key="dish.id">
           <div class="card-dishes h-100"><div class="container-image">
             <img class="img-fluid" :src="store.pathImageDishes + dish.image" :alt="dish.image">
           </div>

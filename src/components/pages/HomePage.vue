@@ -100,7 +100,7 @@ export default {
             v-for="restaurant in filteredRestaurants"
             :key="restaurant.id"
             :restaurantId="restaurant.id"
-            class="card-restaurant w-100"
+            class="card-restaurant flex-column flex-lg-row"
           >
             <div class="image-card col-3">
               <img
@@ -184,6 +184,7 @@ export default {
       justify-content: space-around;
       background-color: var(--bg-primary-100);
       padding: 0.5rem 0;
+      align-items: center;
       .image-card {
         img {
           max-width: 100%;
