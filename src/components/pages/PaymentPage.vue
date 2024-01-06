@@ -124,7 +124,7 @@ export default {
             </div>
 
             <div class="text-center">
-              <button type="submit" class="btn btn-primary mt-4">Pay</button>
+              <button type="submit" class="button-pay">Pay</button>
             </div>
           </form>
         </div>
@@ -139,10 +139,23 @@ export default {
 .wrapper-payment {
   background-color: var(--bg-primary);
   min-height: 100vh;
-
   .form-group > div {
     background-color: var(--bg-white);
     height: 6rem;
+    padding: 1rem 2rem;
+  }
+  .button-pay {
+    border: 2px solid var(--bg-black);
+    padding: 2px 7px;
+    border-radius: 5px;
+    background-color: var(--bg-primary-900);
+    color: var(--bg-black);
+    box-shadow: 1px 1px var(--bg-black);
+    cursor: pointer;
+    &:hover {
+      background-color: var(--bg-white);
+      font-weight: bold;
+    }
   }
 }
 </style>
