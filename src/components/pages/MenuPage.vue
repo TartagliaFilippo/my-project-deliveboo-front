@@ -190,7 +190,7 @@ export default {
             </p>
             <div class="container-add-cart text-center mt-auto pb-2">
                 <div
-                  class="btn btn-primary"
+                  class="button-add"
                   v-if="dish.showAddRemove == false"
                   @click="addToCart(dish)"
                 >
@@ -211,7 +211,7 @@ export default {
                       <font-awesome-icon :icon="['fas', 'plus']" />
                     </div>
                   </div>
-                  <button class="btn btn-danger" @click="toggleAddRemove(dish)">
+                  <button class="button" @click="toggleAddRemove(dish)">
                     Remove
                   </button>
                 </div>
@@ -252,10 +252,39 @@ export default {
           border-radius: 0.5rem;
           background: linear-gradient(0deg, var(--bg-primary-100) 55%, var(--bg-primary-500) 100%);
           .container-add-cart {
+            .button-add {
+              border: 1px solid var(--bg-black);
+              padding: 2px 7px;
+              border-radius: 5px;
+              background-color: var(--bg-primary-500);
+              color: var(--bg-black);
+              box-shadow: 1px 1px var(--bg-black);
+              cursor: pointer;
+
+              &:hover {
+                background-color: var(--bg-primary-700);
+                color: var(--bg-white);
+              }
+            }
             .container-add-remove {
               display: flex;
               flex-direction: column;
               gap: 0.5rem;
+
+              .button {
+              padding: 2px 7px;
+              border-radius: 5px;
+              background-color: var(--bg-primary-700);
+              color: var(--bg-black);
+              box-shadow: 1px 1px var(--bg-black);
+              cursor: pointer;
+
+              &:hover {
+                background-color: var(--bg-black);
+                color: var(--bg-white);
+              }
+
+              }
               .container-componets {
               flex-direction: row;
               justify-content: space-evenly;
@@ -264,12 +293,19 @@ export default {
                 .componet {
                   height: 100%;
                   width: 2rem;
-                  background-color: #d2fffe;
+                  background-color: var(--bg-white);
+                  border: 2px solid var(--bg-black);
+                  box-shadow: 1px 1px var(--bg-primary-700);
                   display: flex;
                   justify-content: center;
                   align-items: center;
                   border-radius: 0.4rem;
                   cursor: pointer;
+
+                  &:hover {
+                    background-color: var(--bg-primary-900);
+                    color: var(--bg-white);
+                  }
                 }
                   .quantity-value {
                     display: flex;
