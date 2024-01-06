@@ -1,16 +1,10 @@
 <script>
-// import MyComponent from "./components/MyComponent.vue";
-
 export default {
   data() {
     return {
       title: "Grazie al cazzo!!!",
     };
   },
-
-  // components: {
-  //   MyComponent,
-  // },
 };
 </script>
 
@@ -18,6 +12,7 @@ export default {
   <div class="wrapper-thanks">
     <div class="container">
       <h1 class="text-center">{{ title }}</h1>
+      <router-link :to="{ name: 'homepage' }">Order again</router-link>
     </div>
   </div>
 </template>

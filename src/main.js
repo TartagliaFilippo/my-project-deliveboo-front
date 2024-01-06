@@ -19,10 +19,11 @@ import {
   faCartShopping,
   faPlus,
   faMinus,
+  faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
 // le aggiungo alla libreria
-library.add(faMagnifyingGlass, faCartShopping, faPlus, faMinus);
+library.add(faMagnifyingGlass, faCartShopping, faPlus, faMinus, faGear);
 
 import App from "./App.vue";
 

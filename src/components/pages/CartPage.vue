@@ -126,7 +126,7 @@ export default {
     <div class="container">
       <div class="row">
         <div class="wrapper-left col-8">
-          <h2>Cart</h2>
+          <h2 v-if="store.cart.length > 0">Cart</h2>
           <table v-if="store.cart.length > 0">
             <thead>
               <tr>
