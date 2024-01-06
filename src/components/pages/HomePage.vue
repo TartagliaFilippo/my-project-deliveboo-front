@@ -173,19 +173,16 @@ export default {
       box-shadow: 0px 0px;
     }
   }
-
   .container-restaurants {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     gap: 2rem;
-
     .card-restaurant {
       display: flex;
       justify-content: space-around;
       background-color: var(--bg-primary-100);
       padding: 0.5rem 0;
-
       .image-card {
         img {
           max-width: 100%;
@@ -206,11 +203,9 @@ export default {
         var(--bg-primary-100) 55%,
         var(--bg-primary-500) 100%
       );
-
       h4 {
         font-size: 2.2rem;
       }
-
       .badge-type {
         background-color: var(--bg-primary-700);
         color: var(--bg-white);

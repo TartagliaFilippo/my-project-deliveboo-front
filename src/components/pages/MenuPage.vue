@@ -283,7 +283,6 @@ export default {
                 background-color: var(--bg-black);
                 color: var(--bg-white);
               }
-
               }
               .container-componets {
               flex-direction: row;

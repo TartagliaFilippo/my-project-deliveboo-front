@@ -165,10 +165,7 @@ export default {
                         <font-awesome-icon :icon="['fas', 'plus']" />
                       </div>
                     </div>
-                    <button
-                      @click="removeFromCart(dish)"
-                      class="btn btn-danger"
-                    >
+                    <button @click="removeFromCart(dish)" class="button-remove">
                       Remove
                     </button>
                   </div>
@@ -181,9 +178,12 @@ export default {
           </div>
         </div>
         <div class="wrapper-right col-4">
-          <div class="total">Your total order is: {{ totalPrice }}</div>
+          <div class="total">
+            Your total order is:
+            <span class="badge-total">{{ totalPrice }} €</span>
+          </div>
           <button
-            class="btn btn-primary my-3"
+            class="button-payment"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#staticBackdrop"
@@ -191,7 +191,7 @@ export default {
           >
             Go to Payment
           </button>
-          <div class="btn btn-danger" @click="clearCart()">Empty Cart</div>
+          <div class="button" @click="clearCart()">Empty Cart</div>
         </div>
       </div>
     </div>
@@ -291,7 +291,7 @@ export default {
 
           <!-- Bottone di invio -->
           <div class="text-center">
-            <button type="submit" class="btn btn-primary mt-4">Send</button>
+            <button type="submit" class="button-send mt-4">Send</button>
           </div>
         </form>
       </div>
@@ -345,7 +345,6 @@ export default {
             }
           }
         }
-
         .container-quantity {
           width: 100%;
           display: flex;
@@ -362,12 +361,19 @@ export default {
             .control-button {
               height: 100%;
               width: 2rem;
-              background-color: #d2fffe;
+              background-color: var(--bg-white);
+              border: 2px solid var(--bg-black);
+              box-shadow: 1px 1px var(--bg-primary-700);
               display: flex;
               justify-content: center;
               align-items: center;
               border-radius: 0.4rem;
               cursor: pointer;
+
+              &:hover {
+                background-color: var(--bg-primary-900);
+                color: var(--bg-white);
+              }
             }
             .quantity {
               display: flex;
@@ -377,17 +383,86 @@ export default {
               font-weight: bold;
             }
           }
+          .button-remove {
+            padding: 2px 7px;
+            border-radius: 5px;
+            background-color: var(--bg-primary-700);
+            color: var(--bg-black);
+            box-shadow: 1px 1px var(--bg-black);
+            cursor: pointer;
+
+            &:hover {
+              background-color: var(--bg-black);
+              color: var(--bg-white);
+            }
+          }
         }
       }
       .wrapper-right {
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 2rem;
+        .total {
+          font-weight: bold;
+          .badge-total {
+            border: 2px solid var(--bg-primary-700);
+            background-color: var(--bg-white);
+            color: var(--bg-black);
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 0.9rem;
+            padding: 1px 5px;
+          }
+        }
+        .button-payment {
+          border: 2px solid var(--bg-black);
+          padding: 2px 7px;
+          border-radius: 5px;
+          background-color: var(--bg-primary-900);
+          color: var(--bg-black);
+          box-shadow: 1px 1px var(--bg-black);
+          cursor: pointer;
+
+          &:hover {
+            background-color: var(--bg-white);
+            font-weight: bold;
+          }
+        }
+        .button {
+          border: 2px solid var(--bg-black);
+          padding: 2px 7px;
+          border-radius: 5px;
+          background-color: var(--bg-primary-700);
+          color: var(--bg-black);
+          box-shadow: 1px 1px var(--bg-black);
+          cursor: pointer;
+
+          &:hover {
+            background-color: var(--bg-black);
+            color: var(--bg-white);
+            font-weight: bold;
+          }
+        }
       }
     }
   }
   .offcanvas {
     background-color: var(--bg-primary-100);
+    .button-send {
+      border: 2px solid var(--bg-black);
+      padding: 2px 7px;
+      border-radius: 5px;
+      background-color: var(--bg-primary-900);
+      color: var(--bg-black);
+      box-shadow: 1px 1px var(--bg-black);
+      cursor: pointer;
+
+      &:hover {
+        background-color: var(--bg-white);
+        font-weight: bold;
+      }
+    }
   }
 }
 </style>
