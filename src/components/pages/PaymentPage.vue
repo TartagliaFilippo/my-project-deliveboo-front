@@ -12,6 +12,7 @@ export default {
       braintreeClient: null,
       hostedFields: null,
       total: 0,
+      cardTypeImage: null,
     };
   },
 
@@ -65,6 +66,11 @@ export default {
         });
 
         this.hostedFields = hostedFieldsInstance;
+
+        this.hostedFields.on("cardTypeChange", (event) => {
+          const cardType = event.cards[0].type;
+          this.cardTypeImage = `../../public/img/card-images/${cardType}.png`;
+        });
       } catch (error) {
         console.error("Errore durante l'inizializzazione di Braintree:", error);
       }
@@ -128,7 +134,13 @@ export default {
             </div>
           </form>
         </div>
-        <div class="col-3"></div>
+        <div class="col-3">
+          <img
+            v-if="cardTypeImage !== null && cardTypeImage !== undefined"
+            :src="cardTypeImage"
+            alt="Card Type"
+          />
+        </div>
       </div>
     </div>
   </div>

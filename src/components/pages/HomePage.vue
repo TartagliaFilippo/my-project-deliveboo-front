@@ -146,6 +146,7 @@ export default {
   color: var(--bg-black);
   width: 100%;
   min-height: 100vh;
+  overflow: auto;
 
   .section-types {
     padding-bottom: 1rem;
