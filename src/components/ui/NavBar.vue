@@ -68,30 +68,30 @@ export default {
         document.documentElement.style.setProperty("--bg-grey", "#555555");
         document.documentElement.style.setProperty("--bg-white", "#e9e9e9");
       } else if (this.selectedTheme === "other-theme") {
-        document.documentElement.style.setProperty("--bg-primary", "#ffff");
+        document.documentElement.style.setProperty("--bg-primary", "#8BFC4C");
         document.documentElement.style.setProperty(
           "--bg-primary-100",
-          "#f5a827"
+          "#4CFC91"
         );
         document.documentElement.style.setProperty(
           "--bg-primary-300",
-          "#f58727"
+          "#2DFA33"
         );
         document.documentElement.style.setProperty(
           "--bg-primary-500",
-          "#f56327"
+          "#56F900"
         );
         document.documentElement.style.setProperty(
           "--bg-primary-700",
-          "#f41212"
+          "#A959FA"
         );
         document.documentElement.style.setProperty(
           "--bg-primary-900",
-          "#f520a0"
+          "#4CFCCD"
         );
         document.documentElement.style.setProperty(
           "--bg-primary-shine",
-          "#f5d816"
+          "#39FF71"
         );
         document.documentElement.style.setProperty("--bg-black", "#101010");
         document.documentElement.style.setProperty(
@@ -178,6 +178,9 @@ export default {
 .dropdown-menu {
   left: -120px;
   background-color: var(--bg-primary-300);
+  li {
+    cursor: pointer;
+  }
 }
 
 .cart {

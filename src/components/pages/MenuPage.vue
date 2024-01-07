@@ -84,16 +84,15 @@ export default {
 
     checkRestaurant(dish) {
       if (this.store.cart.length > 0) {
-        const cartRestaurantId = this.store.cart[0].restaurant_id; // Ottieni l'ID del ristorante nel carrello
+        const cartRestaurantId = this.store.cart[0].restaurant_id;
         if (cartRestaurantId !== dish.restaurant_id) {
-          // Se il ristorante nel carrello è diverso dal ristorante del piatto che si sta cercando di aggiungere
           alert(
-            "Attenzione: Puoi aggiungere piatti solo dallo stesso ristorante."
+            "Please note: You can only add dishes from the same restaurant."
           );
-          return false; // Non aggiungere il piatto al carrello
+          return false; 
         }
       }
-      return true; // Aggiungi il piatto al carrello se tutto è corretto
+      return true;
     },
 
     //aggiunta al carrello per determinato piatto
