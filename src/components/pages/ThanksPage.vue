@@ -13,7 +13,7 @@ export default {
     <div class="container h-100">
       <div class="row flex-column-reverse gy-3 align-items-center flex-lg-row">
         <div class="col-6 left-content">
-          <img src="../../../public/img/delivery/delivery-thanks.png" alt="" />
+          <img src="../../../public/img/delivery/delivery-man.png" alt="" />
         </div>
         <div class="col-6 right-content px-4">
           <h1 class="text-center mt-3">{{ title }}</h1>
